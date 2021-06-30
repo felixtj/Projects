@@ -1,0 +1,268 @@
+<html>
+   <head>
+      <title>Currency Calculator Using VueJs</title>
+      <script type = "text/javascript" src = "https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     
+      
+   </head>
+   <body>
+      <style>
+
+
+          *{
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            }
+
+            html,body{
+            height: 100%;
+        }
+
+        body{
+            display: grid;
+            place-items: center;
+            text-align: center;
+            background: #dde1e7;
+        }
+        
+        .content{
+            width: 330px;
+            background: #dde1e7;
+            border-radius: 10px;
+            padding: 40px 30px;
+            box-shadow: -3px -3px 7px #ffffff73,
+            2px 2px 5px rgba(94, 104, 121, 0.288);
+        }
+        .content .text{
+            font-size: 25px;
+            font-weight: 600;
+            margin-bottom: 35px;
+            color: #000;
+        }
+        .content .field{
+            height: 50px;
+            width: 100%;
+            display: flex;
+            position: relative;
+        }
+        .field input{
+        height: 100%;
+        width: 100%;
+        padding-left: 45px;
+        font-size: 18px;
+        outline: none;
+        border: none;
+        color: #595959;
+        background: #dde1e7;
+        border-radius: 25px;
+        box-shadow: inset 2px 2px 5px #babecc,
+                    inset -5px -5px 10px #ffffff73;
+        }
+
+        .field input:focus ~ label{
+        box-shadow: inset 2px 2px 5px #babecc,
+                    inset -1px -1px 2px #ffffff73;
+        }
+
+        .field:nth-child(2){
+        margin-top: 20px;
+        }
+
+        .field span{
+        position: absolute;
+        width: 50px;
+        line-height: 50px;
+        color: #595959;
+        }
+
+        .field label{
+        position: absolute;
+        top: 50%;
+        left: 45px;
+        pointer-events: none;
+        color: #666666;
+        transform: translateY(-50%);
+        }
+
+        .field select{
+        height: 100%;
+        width: 100%;
+        padding-left: 45px;
+        font-size: 18px;
+        outline: none;
+        border: none;
+        color: #595959;
+        background: #dde1e7;
+        border-radius: 25px;
+        box-shadow: inset 2px 2px 5px #babecc,
+                    inset -5px -5px 10px #ffffff73;
+        }
+
+        .title {
+        text-align: center;
+        margin-bottom: 3em;
+        letter-spacing: 1px;
+        color: #444;
+        font-size: 26px;
+        }
+
+        .field input:focus ~ label{
+        opacity: 0;
+        }
+        #databinding{
+            padding: 20px 15px 15px 15px;
+            margin: 0 0 25px 0;
+            width: auto;
+            
+
+            border-radius: 50px;
+            background: #e0e0e0;
+            box-shadow:  20px 20px 60px #bebebe,-20px -20px 60px #ffffff;
+
+         }
+         span, option, input {
+            font-size:25px;
+        }
+
+
+        .neumorphism-1 {
+        height: 150px;
+        width: 150px;
+        border-radius: 50px;
+        background: linear-gradient(145deg, #5bc6ff, #4da7db);
+        box-shadow: 30px 30px 60px #489dcf, 
+        -30px -30px 60px #62d5ff;
+        }
+         
+      </style>
+      
+      <div id = "databinding"  class="content">
+         <h1  class="text">Currency Converter</h1>
+         <div class="field">
+         <span class="fa fa-user"></span><input type = "number" v-model.number = "amount" placeholder = "Amount" />
+         <label></label>
+        </div>
+        <br/><br/>
+         <span class="title">Convert From:</span>
+         <div class="field">
+         <select v-model = "convertfrom" style = "width:300px;font-size:25px;">
+            <option v-for = "(a, index) in currencyfrom"  v-bind:value = "a.name">{{a.desc}}</option>
+         </select>
+        </div>
+        <br/><br/>
+         <span class="title">Convert To:</span>
+         <div class="field">
+         <select v-model = "convertto" style = "width:300px;font-size:25px;">
+            <option v-for = "(a, index) in currencyfrom" v-bind:value = "a.name">{{a.desc}}</option>
+         </select>
+        </div>
+         <br/><br/>
+         <span class="title"> {{amount}} {{convertfrom}} equals {{finalamount}} {{convertto}}</span>
+      </div>
+      
+      <script type = "text/javascript">
+         var vm = new Vue({
+            el: '#databinding',
+            data: {
+               name:'',
+               currencyfrom : [
+                  {name : "USD", desc:"US Dollar"},
+                  {name:"EUR", desc:"Euro"},
+                  //{name:"INR", desc:"Indian Rupee"},
+                  {name:"BHD", desc:"Bahraini Dinar"},
+                  {name:"IDR", desc:"Indonesia Rupiah"}
+               ],
+               convertfrom: "USD",
+               convertto:"IDR",
+               amount :""
+            },
+            computed :{
+               finalamount:function() {
+                  var to = this.convertto;
+                  var from = this.convertfrom;
+                  var final;
+                  switch(from) {
+                    case "IDR":
+                     if (to == "USD") {
+                        final = this.amount * 0.000069;
+                     }
+                     if (to == "EUR") {
+                        final = this.amount * 0.000058;
+                     }
+                     if (to == "IDR") {
+                        final = this.amount;
+                     }
+                     if (to == "BHD") {
+                        final = this.amount;
+                     }
+                     break; 
+                    case "INR":
+                     if (to == "USD") {
+                        final = this.amount * 0.016;
+                     }
+                     if (to == "EUR") {
+                        final = this.amount * 0.013;
+                     }
+                     if (to == "INR") {
+                        final = this.amount;
+                     }
+                     if (to == "BHD") {
+                        final = this.amount * 0.0059;
+                     }
+                     break;
+                     case "USD":
+                     if (to == "INR") {
+                        final = this.amount * 63.88;
+                     }
+                     if (to == "EUR") {
+                        final = this.amount * 0.84;
+                     }
+                     if (to == "USD") {
+                        final = this.amount;
+                     }
+                     if (to == "BHD") {
+                        final = this.amount * 0.38;
+                     }
+                     if (to == "IDR") {
+                        final = this.amount * 14500;
+                     }
+                     break;
+                     case "EUR":
+                     if (to == "INR") {
+                        final = this.amount * 76.22;
+                     }
+                     if (to == "USD") {
+                        final = this.amount * 1.19;
+                     }
+                     if (to == "EUR") {
+                        final = this.amount;
+                     }
+                     if (to == "BHD") {
+                        final = this.amount * 0.45;
+                     }
+                     break;
+                     case "BHD":
+                     if (to == "INR") {
+                        final = this.amount *169.44;
+                     }
+                     if (to == "USD") {
+                        final = this.amount * 2.65;
+                     }
+                     if (to == "EUR") {
+                        final = this.amount * 2.22;
+                     }
+                     if (to == "BHD") {
+                        final = this.amount;
+                     }
+                     break
+                  }
+                  return final;
+               }
+            }
+         });
+      </script>
+   </body>
+</html>
