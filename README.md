@@ -1,6 +1,6 @@
 # Projects
  Sample Projects using Vue & React
 
-# Currency
+# Currency Converter
   - A currency converter using Vue
   - Using Neomorphism CSS
